@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=orderotemsreserver;AccountKey=iorA22niFh+RpCW4s8lWXyT35UFyydcKQ6vesJ8iYoUJmq5CABRjVjoYyXQNCbGh6UcvLMbLkCKy+AStm/1/4Q==;EndpointSuffix=core.windows.net",
+    "ServiceBusConnection": "Endpoint=sb://eshopsb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=c0a66fA6U//sIfzSyZYlrMF8VYcm3RryV+ASbEAxcMw=",
+    "BlobStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=orderotemsreserver;AccountKey=iorA22niFh+RpCW4s8lWXyT35UFyydcKQ6vesJ8iYoUJmq5CABRjVjoYyXQNCbGh6UcvLMbLkCKy+AStm/1/4Q==;EndpointSuffix=core.windows.net"
+  }
+}

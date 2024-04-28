@@ -28,16 +28,20 @@ if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName =
 }
 else{
     // Configure SQL Server (prod)
+    var vaultUrl = builder.Configuration["AZURE_KEY_VAULT_ENDPOINT"];
+    var catalogConnection = builder.Configuration["AZURE_SQL_CATALOG_CONNECTION_STRING_KEY"];
+    var identityConnection = builder.Configuration["AZURE_SQL_IDENTITY_CONNECTION_STRING_KEY"];
+
     var credential = new ChainedTokenCredential(new AzureDeveloperCliCredential(), new DefaultAzureCredential());
-    builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["AZURE_KEY_VAULT_ENDPOINT"] ?? ""), credential);
+    builder.Configuration.AddAzureKeyVault(new Uri(vaultUrl ?? ""), credential);
     builder.Services.AddDbContext<CatalogContext>(c =>
     {
-        var connectionString = builder.Configuration[builder.Configuration["AZURE_SQL_CATALOG_CONNECTION_STRING_KEY"] ?? ""];
+        var connectionString = builder.Configuration[catalogConnection ?? ""];
         c.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure());
     });
     builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     {
-        var connectionString = builder.Configuration[builder.Configuration["AZURE_SQL_IDENTITY_CONNECTION_STRING_KEY"] ?? ""];
+        var connectionString = builder.Configuration[identityConnection ?? ""];
         options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure());
     });
 }
@@ -109,6 +113,7 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ToastService>();
 builder.Services.AddScoped<HttpService>();
+builder.Services.AddHttpClient();
 builder.Services.AddBlazorServices();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
