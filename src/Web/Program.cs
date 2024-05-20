@@ -37,11 +37,13 @@ else{
     builder.Services.AddDbContext<CatalogContext>(c =>
     {
         var connectionString = builder.Configuration[catalogConnection ?? ""];
+
         c.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure());
     });
     builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     {
         var connectionString = builder.Configuration[identityConnection ?? ""];
+
         options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure());
     });
 }
