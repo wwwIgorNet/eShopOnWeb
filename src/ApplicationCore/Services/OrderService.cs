@@ -66,12 +66,9 @@ public class OrderService : IOrderService
         var json = JsonSerializer.Serialize(order.OrderItems.Select(item => new { item.ItemOrdered.CatalogItemId, item.Units }));
         await SendOrderItemsMessageToReserverAsync(json);
 
-        //var httpClient = _httpClientFactory.CreateClient();
-        //var orderItemsReserverUrl = _config["AzureFunctions:OrderItemsReserver"];
-        //var reserverRes = await httpClient.PostAsJsonAsync(orderItemsReserverUrl, json);
-
-        //var deliveryOrderProcessorUrl = _config["AzureFunctions:DeliveryOrderProcessor"];
-        //var deliveryRes = await httpClient.PostAsJsonAsync(deliveryOrderProcessorUrl, new { order.ShipToAddress, FinalPrice = order.Total(), ListOfItems = order.OrderItems.Select(item => new { item.ItemOrdered.CatalogItemId, item.Units }) });
+        var httpClient = _httpClientFactory.CreateClient();
+        var orderItemsReserverUrl = _config["AzureFunctions:DeliveryOrderProcessor"];
+        _ = await httpClient.PostAsJsonAsync(orderItemsReserverUrl, json);
     }
 
     private async Task SendOrderItemsMessageToReserverAsync(string json)
